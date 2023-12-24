@@ -6,17 +6,14 @@ public class StackBackedQueue<T> : IQueue<T>
 {
     private readonly Stack<T> stack1 = new();
     private readonly Stack<T> stack2 = new();
-
-    public T? Front { get; private set; }
-    public T? Rear { get; private set; }
+    private T? front;
 
     public void Enqueue(T item)
     {
         if (IsEmpty())
         {
-            Front = item;
+            front = item;
         }
-        Rear = item;
 
         stack1.Push(item);
     }
@@ -28,11 +25,11 @@ public class StackBackedQueue<T> : IQueue<T>
 
         if (IsEmpty())
         {
-            Front = Rear = default;
+            front = default;
         }
         else
         {
-            Front = stack2.Peek();
+            front = stack2.Peek();
         }
 
         ReturnBackToOriginalStack();
@@ -41,15 +38,15 @@ public class StackBackedQueue<T> : IQueue<T>
 
     public T Peak()
     {
-        MoveTo2ndStack();
-        T item = stack2.Peek();
-        ReturnBackToOriginalStack();
-        return item;
+        if (IsEmpty() || front == null)
+        {
+            throw new InvalidOperationException("Can not call peak on a empty queue.");
+        }
+
+        return front;
     }
 
     public bool IsEmpty() => stack1.Count == 0;
-
-    public int Count => stack1.Count;
 
     private void MoveTo2ndStack()
     {

@@ -6,7 +6,4 @@ public interface IQueue<T>
     T Dequeue();
     T Peak();
     bool IsEmpty();
-    int Count { get; }
-    T? Front { get; }
-    T? Rear { get; }
 }
