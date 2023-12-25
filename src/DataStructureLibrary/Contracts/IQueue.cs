@@ -1,4 +1,4 @@
-﻿namespace DataStructures.DataStructureLibrary;
+﻿namespace DataStructures.DataStructureLibrary.Contracts;
 
 public interface IQueue<T>
 {

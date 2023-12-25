@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace DataStructures.DataStructureLibrary;
+﻿namespace DataStructures.DataStructureLibrary;
 
 public class StackBackedQueue<T> : IQueue<T>
 {

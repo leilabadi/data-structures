@@ -1,21 +1,9 @@
 namespace DataStructures.UnitTests;
 
-public class StackBackedQueueTests
+public class StackBackedQueueTests : TestBase
 {
-    private readonly Faker faker;
-
-    public StackBackedQueueTests()
-    {
-        faker = new Faker();
-    }
-
-    private int GetRandomNumber()
-    {
-        return faker.Random.Int(1, 1000);
-    }
-
     [Fact]
-    public void Enqueue_ShouldStoreCorrectNumber_WhenPassingANumber()
+    public void Enqueue_WhenPassingANumber_ShouldStoreIt()
     {
         // Arrange
         int num1 = GetRandomNumber();
@@ -31,7 +19,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void Dequeue_ShouldReturnInFirstInFirstOutOrder_WhenPassingMultipleNumbers()
+    public void Dequeue_WhenPassingMultipleNumbers_ShouldReturnThemInFifoOrder()
     {
         // Arrange
         int num1 = GetRandomNumber();
@@ -56,7 +44,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void IsEmpty_PassingMultipleNumbers_ShouldReturnACorrectValueInEachStep()
+    public void IsEmpty_PassingMultipleNumbers_ShouldReturnCorrectValueInEachStep()
     {
         // Arrange
         int num1 = GetRandomNumber();
@@ -84,7 +72,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void Peak_ShouldThrowException_WhenQueueHasNoItems()
+    public void Peak_WhenQueueHasNoItems_ShouldThrowException()
     {
         // Arrange
         var sut = new StackBackedQueue<int>();
@@ -97,7 +85,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void Peak_ShouldThrowException_WhenAllItemsHaveBeenRemoved()
+    public void Peak_WhenAllItemsHaveBeenRemoved_ShouldThrowException()
     {
         // Arrange
         var sut = new StackBackedQueue<int>();
@@ -112,7 +100,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void IsEmpty_ShouldReturnTrue_WhenQueueHasNoItems()
+    public void IsEmpty_WhenQueueHasNoItems_ShouldReturnTrue()
     {
         // Arrange
         var sut = new StackBackedQueue<int>();
@@ -125,7 +113,7 @@ public class StackBackedQueueTests
     }
 
     [Fact]
-    public void IsEmpty_ShouldReturnTrue_WhenAllItemsHaveBeenRemoved()
+    public void IsEmpty_WhenAllItemsHaveBeenRemoved_ShouldReturnTrue()
     {
         // Arrange
         var sut = new StackBackedQueue<int>();
