@@ -44,7 +44,7 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 
     public void Remove(T value)
     {
-        if (IsEmpty)
+        if (root == null)
         {
             throw new InvalidOperationException("Tree is empty");
         }
