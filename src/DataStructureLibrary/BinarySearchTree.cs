@@ -84,6 +84,11 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
             throw new InvalidOperationException("Value not found");
         }
 
+        if (parent == null)
+        {
+            throw new ApplicationException("Parent should only be null when we are deleting root node which is handled earlier! If this is happening, it means the algorithm is wrong!");
+        }
+
         count--;
 
         if (deleteTarget.Count > 1)
@@ -105,14 +110,21 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
         else
         {
             current = deleteTarget.Right;
-            while (current != null)
+            if (current == null)
             {
-                current = current.Left;
+                RemoveNode(deleteTarget, current, parent);
             }
+            else
+            {
+                while (current.Left != null)
+                {
+                    current = current.Left;
+                }
 
-            current.Left = deleteTarget.Left;
-            current.Right = deleteTarget.Right;
-            RemoveNode(deleteTarget, current, parent);
+                current.Left = deleteTarget.Left;
+                current.Right = deleteTarget.Right;
+                RemoveNode(deleteTarget, current, parent);
+            }
         }
     }
 
