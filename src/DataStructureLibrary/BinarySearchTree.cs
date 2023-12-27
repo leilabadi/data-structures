@@ -56,17 +56,10 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
             return;
         }
 
-        TreeNode<T>? deleteTarget = null;
         TreeNode<T>? parent = null;
         TreeNode<T>? current = root;
         while (current != null)
         {
-            if (value.CompareTo(current.Value) == 0)
-            {
-                deleteTarget = current;
-                break;
-            }
-
             if (value.CompareTo(current.Value) < 0)
             {
                 parent = current;
@@ -77,42 +70,45 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
                 parent = current;
                 current = current.Right;
             }
+            else if (value.CompareTo(current.Value) == 0)
+            {
+                // Parent should not be null at this point. It is only null when we are deleting root node which is handled earlier.
+                if (parent != null)
+                {
+                    RemoveNode(current, parent);
+                    return;
+                }
+            }
         }
 
-        if (deleteTarget == null)
-        {
-            throw new InvalidOperationException("Value not found");
-        }
+        // If we get here, the value has not been found
+        throw new InvalidOperationException("Value not found");
+    }
 
-        if (parent == null)
+    private void RemoveNode(TreeNode<T> target, TreeNode<T> parent)
+    {
+        if (target.Count > 1)
         {
-            throw new ApplicationException("Parent should only be null when we are deleting root node which is handled earlier! If this is happening, it means the algorithm is wrong!");
+            target.Count--;
         }
-
-        count--;
-
-        if (deleteTarget.Count > 1)
+        else if (target.IsLeaf)
         {
-            deleteTarget.Count--;
+            ReplaceNode(target, null, parent);
         }
-        else if (deleteTarget.IsLeaf)
+        else if (target.Left == null)
         {
-            RemoveNode(deleteTarget, null, parent);
+            ReplaceNode(target, target.Right, parent);
         }
-        else if (deleteTarget.Left == null)
+        else if (target.Right == null)
         {
-            RemoveNode(deleteTarget, deleteTarget.Right, parent);
-        }
-        else if (deleteTarget.Right == null)
-        {
-            RemoveNode(deleteTarget, deleteTarget.Left, parent);
+            ReplaceNode(target, target.Left, parent);
         }
         else
         {
-            current = deleteTarget.Right;
+            TreeNode<T>? current = target.Right;
             if (current == null)
             {
-                RemoveNode(deleteTarget, current, parent);
+                ReplaceNode(target, current, parent);
             }
             else
             {
@@ -121,14 +117,16 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
                     current = current.Left;
                 }
 
-                current.Left = deleteTarget.Left;
-                current.Right = deleteTarget.Right;
-                RemoveNode(deleteTarget, current, parent);
+                current.Left = target.Left;
+                current.Right = target.Right;
+                ReplaceNode(target, current, parent);
             }
         }
+
+        count--;
     }
 
-    private void RemoveNode(TreeNode<T> deleteTarget, TreeNode<T>? replacmentNode, TreeNode<T> parent)
+    private void ReplaceNode(TreeNode<T> deleteTarget, TreeNode<T>? replacmentNode, TreeNode<T> parent)
     {
         if (deleteTarget == parent.Left)
         {
