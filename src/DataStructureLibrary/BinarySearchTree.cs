@@ -65,13 +65,6 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
             }
             else if (value.CompareTo(current.Value) == 0)
             {
-                if (parent == null)
-                {
-                    root = null;
-                    count--;
-                    return;
-                }
-
                 RemoveNode(current, parent);
                 return;
             }
@@ -81,15 +74,11 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
         throw new InvalidOperationException("Value not found");
     }
 
-    private void RemoveNode(TreeNode<T> target, TreeNode<T> parent)
+    private void RemoveNode(TreeNode<T> target, TreeNode<T>? parent)
     {
         if (target.Count > 1)
         {
             target.Count--;
-        }
-        else if (target.IsLeaf)
-        {
-            ReplaceNode(target, null, parent);
         }
         else if (target.Left == null)
         {
@@ -122,9 +111,13 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
         count--;
     }
 
-    private void ReplaceNode(TreeNode<T> deleteTarget, TreeNode<T>? replacmentNode, TreeNode<T> parent)
+    private void ReplaceNode(TreeNode<T> deleteTarget, TreeNode<T>? replacmentNode, TreeNode<T>? parent)
     {
-        if (deleteTarget == parent.Left)
+        if (parent == null)
+        {
+            root = replacmentNode;
+        }
+        else if (deleteTarget == parent.Left)
         {
             parent.Left = replacmentNode;
         }

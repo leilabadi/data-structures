@@ -263,4 +263,45 @@ public class BinarySearchTreeTests : TestBase
         sut.Contains(num2).Should().BeFalse();
         sut.Contains(num3).Should().BeTrue();
     }
+
+    [Fact]
+    public void Remove_WhenRemovingRootAndItHasNoChildren_ShouldRemoveIt()
+    {
+        // Arrange
+        int num1 = GetRandomNumber();
+
+        ITree<int> sut = new BinarySearchTree<int>();
+        sut.Add(num1);
+
+        // Act
+        sut.Remove(num1);
+
+        // Assert
+        sut.IsEmpty.Should().BeTrue();
+        sut.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingRootAndItHasChildren_ShouldReplaceRootWithOneOfItsChildren()
+    {
+        // Arrange
+        int num1 = 2;
+        int num2 = 1;
+        int num3 = 3;
+
+        ITree<int> sut = new BinarySearchTree<int>();
+
+        sut.Add(num1);
+        sut.Add(num2);
+        sut.Add(num3);
+
+        // Act
+        sut.Remove(num1);
+
+        // Assert
+        sut.Count.Should().Be(2);
+        sut.Contains(num1).Should().BeFalse();
+        sut.Contains(num2).Should().BeTrue();
+        sut.Contains(num3).Should().BeTrue();
+    }
 }
