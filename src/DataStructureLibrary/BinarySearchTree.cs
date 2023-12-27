@@ -49,13 +49,6 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
             throw new InvalidOperationException("Tree is empty");
         }
 
-        if (root.IsLeaf && value.CompareTo(root.Value) == 0)
-        {
-            root = null;
-            count--;
-            return;
-        }
-
         TreeNode<T>? parent = null;
         TreeNode<T>? current = root;
         while (current != null)
@@ -72,12 +65,15 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
             }
             else if (value.CompareTo(current.Value) == 0)
             {
-                // Parent should not be null at this point. It is only null when we are deleting root node which is handled earlier.
-                if (parent != null)
+                if (parent == null)
                 {
-                    RemoveNode(current, parent);
+                    root = null;
+                    count--;
                     return;
                 }
+
+                RemoveNode(current, parent);
+                return;
             }
         }
 
