@@ -6,7 +6,10 @@ public class TreeNode<T>
     public int Count { get; set; } = 1;
     public TreeNode<T>? Left { get; set; }
     public TreeNode<T>? Right { get; set; }
+
     public bool IsLeaf => Left == null && Right == null;
+
+    public bool IsDuplicate => Count > 1;
 
     public TreeNode(T value, TreeNode<T>? left = null, TreeNode<T>? right = null)
     {
