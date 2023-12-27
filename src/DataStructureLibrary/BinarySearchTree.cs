@@ -52,7 +52,7 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 
         TreeNode<T>? parent = null;
         TreeNode<T>? current = root;
-        
+
         // Search for the value in the tree
         while (current != null)
         {
@@ -80,37 +80,45 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
         throw new InvalidOperationException("Value not found");
     }
 
-    private void RemoveNode(TreeNode<T> target, TreeNode<T>? parent)
+    private void RemoveNode(TreeNode<T> deleteTarget, TreeNode<T>? deleteParent)
     {
         // If the node has a duplicate value, just decrement the count
-        if (target.IsDuplicate)
+        if (deleteTarget.IsDuplicate)
         {
-            target.Count--;
+            deleteTarget.Count--;
         }
         // If the node has no left child, replace it with its right child
-        else if (target.Left == null)
+        else if (deleteTarget.Left == null)
         {
-            ReplaceNode(target, target.Right, parent);
+            ReplaceNode(deleteTarget, deleteTarget.Right, deleteParent);
         }
         // If the node has no right child, replace it with its left child
-        else if (target.Right == null)
+        else if (deleteTarget.Right == null)
         {
-            ReplaceNode(target, target.Left, parent);
+            ReplaceNode(deleteTarget, deleteTarget.Left, deleteParent);
         }
         // If the node has both children, replace it with the smallest value in its right subtree
         else
         {
-            TreeNode<T> current = target.Right;
+            TreeNode<T>? leftmostParent = null;
+            TreeNode<T> leftmost = deleteTarget.Right;
 
             // Find right child's leftmost child
-            while (current.Left != null)
+            while (leftmost.Left != null)
             {
-                current = current.Left;
+                leftmostParent = leftmost;
+                leftmost = leftmost.Left;
             }
 
-            current.Left = target.Left;
-            current.Right = target.Right;
-            ReplaceNode(target, current, parent);
+            // If leftmost node has parent and a right subtree, replace leftmost node with right subtree
+            if (leftmostParent != null)
+            {
+                leftmostParent.Left = leftmost.Right;
+            }
+
+            leftmost.Left = deleteTarget.Left;
+            leftmost.Right = deleteTarget.Right;
+            ReplaceNode(deleteTarget, leftmost, deleteParent);
         }
 
         count--;

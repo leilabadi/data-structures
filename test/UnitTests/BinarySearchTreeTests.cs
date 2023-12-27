@@ -304,4 +304,115 @@ public class BinarySearchTreeTests : TestBase
         sut.Contains(num2).Should().BeTrue();
         sut.Contains(num3).Should().BeTrue();
     }
+
+    [Fact]
+    public void Remove_WhenRemovingANodeContainingSubtree_ShouldReplaceItWithTheSmallestValueInTheRightSubtree()
+    {
+        // Arrange
+        int num1 = 5;
+        int num2 = 3;
+        int num3 = 7;
+        int num4 = 2;
+        int num5 = 4;
+        int num6 = 6;
+        int num7 = 8;
+
+        ITree<int> sut = new BinarySearchTree<int>();
+
+        sut.Add(num1);
+        sut.Add(num2);
+        sut.Add(num3);
+        sut.Add(num4);
+        sut.Add(num5);
+        sut.Add(num6);
+        sut.Add(num7);
+
+        // Act
+        sut.Remove(num3);
+
+        // Assert
+        sut.Count.Should().Be(6);
+        sut.Contains(num1).Should().BeTrue();
+        sut.Contains(num2).Should().BeTrue();
+        sut.Contains(num3).Should().BeFalse();
+        sut.Contains(num4).Should().BeTrue();
+        sut.Contains(num5).Should().BeTrue();
+        sut.Contains(num6).Should().BeTrue();
+        sut.Contains(num7).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingANodeContainingRightSubtreeV1_ShouldReplaceItWithTheSmallestValueInTheRightSubtree()
+    {
+        // Arrange
+        int[] numbers = [5, 3, 9, 7, 6, 2, 4, 1, 12, 8, 13, 11, 10];
+
+        ITree<int> sut = new BinarySearchTree<int>();
+
+        foreach (int number in numbers)
+        {
+            sut.Add(number);
+        }
+
+        // Act
+        sut.Remove(9);
+
+        // Assert
+        sut.Count.Should().Be(numbers.Length - 1);
+        sut.Contains(9).Should().BeFalse();
+        foreach (int number in numbers.Except([9]))
+        {
+            sut.Contains(number).Should().BeTrue();
+        }
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingANodeContainingRightSubtreeV2_ShouldReplaceItWithTheSmallestValueInTheRightSubtree()
+    {
+        // Arrange
+        int[] numbers = [5, 3, 9, 7, 6, 2, 4, 1, 13, 8, 14, 11, 10, 12];
+
+        ITree<int> sut = new BinarySearchTree<int>();
+
+        foreach (int number in numbers)
+        {
+            sut.Add(number);
+        }
+
+        // Act
+        sut.Remove(9);
+
+        // Assert
+        sut.Count.Should().Be(numbers.Length - 1);
+        sut.Contains(9).Should().BeFalse();
+        foreach (int number in numbers.Except([9]))
+        {
+            sut.Contains(number).Should().BeTrue();
+        }
+    }
+
+    [Fact]
+    public void Remove_WhenRemovingANodeContainingRightSubtreeV3_ShouldReplaceItWithTheSmallestValueInTheRightSubtree()
+    {
+        // Arrange
+        int[] numbers = [5, 3, 9, 7, 6, 2, 4, 1, 12, 8, 13, 10, 11];
+
+        ITree<int> sut = new BinarySearchTree<int>();
+
+        foreach (int number in numbers)
+        {
+            sut.Add(number);
+        }
+
+        // Act
+        sut.Remove(9);
+
+        // Assert
+        sut.Count.Should().Be(numbers.Length - 1);
+        sut.Contains(9).Should().BeFalse();
+        foreach (int number in numbers.Except([9]))
+        {
+            sut.Contains(number).Should().BeTrue();
+        }
+    }
 }
