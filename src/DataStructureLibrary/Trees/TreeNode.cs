@@ -1,4 +1,4 @@
-﻿namespace DataStructures.DataStructureLibrary;
+﻿namespace DataStructures.DataStructureLibrary.Trees;
 
 public class TreeNode<T>
 {

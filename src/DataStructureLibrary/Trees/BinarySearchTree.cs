@@ -1,4 +1,4 @@
-﻿namespace DataStructures.DataStructureLibrary;
+﻿namespace DataStructures.DataStructureLibrary.Trees;
 
 public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 {
@@ -176,33 +176,133 @@ public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 
     public bool IsEmpty => count == 0;
 
-    public IEnumerable<T> TraverseBreadthFirst()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<T> TraverseDepthFirst()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<T> TraverseInOrder()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<T> TraverseLevelOrder()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<T> TraversePostOrder()
-    {
-        throw new NotImplementedException();
-    }
-
+    /// <summary>
+    /// Depth first pre-order traversal
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public IEnumerable<T> TraversePreOrder()
     {
-        throw new NotImplementedException();
+        if (root == null) return Enumerable.Empty<T>();
+
+        return TraversePreOrderInternal(root);
+
+    }
+
+    /// <summary>
+    /// Depth first in-order traversal
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public IEnumerable<T> TraverseInOrder()
+    {
+        if (root == null) return Enumerable.Empty<T>();
+
+        return TraverseInOrderInternal(root);
+
+    }
+
+    /// <summary>
+    /// Depth first post-order traversal
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public IEnumerable<T> TraversePostOrder()
+    {
+        if (root == null) return Enumerable.Empty<T>();
+
+        return TraversePostOrderInternal(root);
+
+    }
+
+    /// <summary>
+    /// Breadth first traversal
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public IEnumerable<T> TraverseLevelOrder()
+    {
+        if (root == null) return Enumerable.Empty<T>();
+
+        List<T> list = [];
+        Queue<TreeNode<T>> queue = new([root]);
+        while (queue.Any())
+        {
+            TreeNode<T> current = queue.Dequeue();
+            list.Add(current.Value);
+            if (current.Left != null)
+            {
+                queue.Enqueue(current.Left);
+            }
+            if (current.Right != null)
+            {
+                queue.Enqueue(current.Right);
+            }
+        }
+
+        return list;
+    }
+
+    private IEnumerable<T> TraversePreOrderInternal(TreeNode<T> current)
+    {
+        List<T> list = [current.Value];
+
+        if (current.IsLeaf)
+        {
+            return list;
+        }
+
+        if (current.Left != null)
+        {
+            list.AddRange(TraversePreOrderInternal(current.Left));
+        }
+        if (current.Right != null)
+        {
+            list.AddRange(TraversePreOrderInternal(current.Right));
+        }
+
+        return list;
+    }
+
+    private IEnumerable<T> TraverseInOrderInternal(TreeNode<T> current)
+    {
+        if (current.IsLeaf)
+        {
+            return [current.Value];
+        }
+
+        List<T> list = new();
+        if (current.Left != null)
+        {
+            list.AddRange(TraverseInOrderInternal(current.Left));
+        }
+        list.Add(current.Value);
+        if (current.Right != null)
+        {
+            list.AddRange(TraverseInOrderInternal(current.Right));
+        }
+
+        return list;
+    }
+
+    private IEnumerable<T> TraversePostOrderInternal(TreeNode<T> current)
+    {
+        if (current.IsLeaf)
+        {
+            return [current.Value];
+        }
+
+        List<T> list = new();
+        if (current.Left != null)
+        {
+            list.AddRange(TraversePostOrderInternal(current.Left));
+        }
+        if (current.Right != null)
+        {
+            list.AddRange(TraversePostOrderInternal(current.Right));
+        }
+        list.Add(current.Value);
+
+        return list;
     }
 }

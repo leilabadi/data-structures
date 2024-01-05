@@ -1,4 +1,4 @@
-﻿namespace DataStructures.DataStructureLibrary;
+﻿namespace DataStructures.DataStructureLibrary.Queues;
 
 public class StackBackedQueue<T> : IQueue<T>
 {

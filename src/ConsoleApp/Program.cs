@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using DataStructures.DataStructureLibrary;
+using DataStructures.DataStructureLibrary.Trees;
 
 var tree = new BinarySearchTree<int>();
 
@@ -11,6 +11,6 @@ foreach (int number in numbers)
     tree.Add(number);
 }
 
-tree.Remove(9);
+//tree.Remove(9);
 
-Console.WriteLine();
+Console.WriteLine(TreePrinter.Print(tree.TraverseLevelOrder()));

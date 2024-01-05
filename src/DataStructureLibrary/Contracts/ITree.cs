@@ -7,8 +7,6 @@ public interface ITree<T>
     bool Contains(T value);
     int Count { get; }
     bool IsEmpty { get; }
-    IEnumerable<T> TraverseBreadthFirst();
-    IEnumerable<T> TraverseDepthFirst();
     IEnumerable<T> TraversePreOrder();
     IEnumerable<T> TraverseInOrder();
     IEnumerable<T> TraversePostOrder();

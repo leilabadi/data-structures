@@ -1,4 +1,6 @@
-namespace DataStructures.UnitTests;
+using DataStructures.DataStructureLibrary.Queues;
+
+namespace DataStructures.UnitTests.Queues;
 
 public class StackBackedQueueTests : TestBase
 {

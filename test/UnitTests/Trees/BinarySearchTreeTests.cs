@@ -1,4 +1,6 @@
-﻿namespace DataStructures.UnitTests;
+﻿using DataStructures.DataStructureLibrary.Trees;
+
+namespace DataStructures.UnitTests.Trees;
 
 public class BinarySearchTreeTests : TestBase
 {
